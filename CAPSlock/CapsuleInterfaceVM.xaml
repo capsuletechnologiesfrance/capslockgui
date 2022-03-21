@@ -1,0 +1,278 @@
+﻿<Window
+    x:Class="CAPSlock.CapsuleInterfaceVM"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CAPSlock"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    Title="Interface CAPSVM"
+    Width="1070"
+    Height="600"
+    MinWidth="890"
+    MinHeight="450"
+    Background="White"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    MouseDown="Window_MouseDown"
+    TextElement.FontSize="13"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <Style
+            x:Key="bouton_VM"
+            BasedOn="{StaticResource MaterialDesignPaperDarkButton}"
+            TargetType="{x:Type Button}">
+            <EventSetter Event="Click" Handler="Desktop" />
+            <Setter Property="Height" Value="31" />
+            <Setter Property="MinWidth" Value="100" />
+            <Setter Property="MaxWidth" Value="100" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Margin" Value="10,0,0,0" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="White" />
+            <Setter Property="Foreground" Value="Black" />
+
+            <Setter Property="IsEnabled" Value="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+        </Style>
+        <Style x:Key="badgeStyle" TargetType="materialDesign:Badged">
+            <Setter Property="Margin" Value="0,1,0,0" />
+            <Setter Property="Badge" Value="{materialDesign:PackIcon Size=0}" />
+            <Setter Property="BadgeBackground" Value="DarkRed" />
+        </Style>
+
+        <Style x:Key="badgeStyleTrue" TargetType="materialDesign:Badged">
+            <Setter Property="Margin" Value="0,1,0,0" />
+            <Setter Property="Badge" Value="{materialDesign:PackIcon Size=0}" />
+            <Setter Property="BadgeBackground" Value="DarkGreen" />
+        </Style>
+    </Window.Resources>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" />
+    </WindowChrome.WindowChrome>
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="Colonne1" Width="250" />
+            <ColumnDefinition x:Name="Colonne2" Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions />
+
+
+        <ScrollViewer
+            Grid.Column="0"
+            Margin="-13,0,0,0"
+            HorizontalAlignment="Center"
+            HorizontalScrollBarVisibility="Hidden"
+            VerticalScrollBarVisibility="Visible">
+            <StackPanel
+                x:Name="Navi"
+                Grid.Row="0"
+                Grid.Column="0">
+                <StackPanel.Effect>
+                    <BlurEffect
+                        x:Name="PanelBlur"
+                        KernelType="Gaussian"
+                        Radius="0" />
+                </StackPanel.Effect>
+                <StackPanel.Background>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="0.929" Color="#FF382B2B" />
+                        <GradientStop Offset="0.333" Color="#FF6684A2" />
+                    </LinearGradientBrush>
+                </StackPanel.Background>
+                <TextBlock
+                    x:Name="HostName"
+                    Margin="0,25"
+                    HorizontalAlignment="Center"
+                    FontSize="15"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Text="" />
+
+                <Button
+                    x:Name="overviewButton"
+                    Width="200"
+                    Margin="10,0,0,15"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Left"
+                    Background="White"
+                    BorderBrush="White"
+                    Click="Apercu"
+                    Content="Overview"
+                    Cursor="Hand"
+                    Foreground="#DD000000"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+
+                <Expander
+                    x:Name="vmexpander"
+                    Margin="30,0,20,20"
+                    Background="White"
+                    BorderBrush="Black"
+                    FlowDirection="RightToLeft"
+                    FontSize="14"
+                    FontWeight="Medium"
+                    Style="{StaticResource CustomExpander}">
+
+                    <Expander.Header>
+                        <TextBlock Margin="52,0,0,0" Text="Virtual machine">
+
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="0" />
+
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Expander.Header>
+
+
+                    <StackPanel
+                        x:Name="panel"
+                        Margin="24,8,24,16"
+                        FlowDirection="LeftToRight">
+                        <Button
+                            x:Name="AddMachine"
+                            Margin="0,0,0,0"
+                            HorizontalAlignment="Center"
+                            materialDesign:RippleAssist.Feedback="Transparent"
+                            Click="AjouterMachine"
+                            Foreground="Black"
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            Style="{StaticResource MaterialDesignIconButton}">
+
+                            <materialDesign:PackIcon Kind="PlusCircleOutline" />
+                        </Button>
+                        <ListBox
+                            x:Name="list_VM"
+                            Width="133"
+                            Background="Transparent"
+                            Style="{StaticResource ListBoxStyle1}" />
+                    </StackPanel>
+
+                </Expander>
+
+
+
+
+                <Button
+                    x:Name="snapshotButton"
+                    Width="200"
+                    Margin="10,0,0,15"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Left"
+                    Background="White"
+                    BorderBrush="White"
+                    Click="Button_snapshot"
+                    Content="Snapshot"
+                    Cursor="Hand"
+                    Foreground="#DD000000"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+
+                <Button
+                    Name="Terminal"
+                    Width="200"
+                    Margin="10,0,0,15"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Left"
+                    Background="White"
+                    BorderBrush="White"
+                    Click="Button_terminal"
+                    Content="Terminal"
+                    Foreground="#DD000000"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+
+
+                <Button
+                    x:Name="logOutButton"
+                    Margin="0,30"
+                    Padding="10,5,10,5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    HorizontalContentAlignment="Center"
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                    Background="#FFA42626"
+                    BorderThickness="{Binding CornerRadius}"
+                    Click="Logout"
+                    Content="Logout"
+                    Cursor="Hand" />
+
+                <Label
+                    Grid.Column="0"
+                    Margin="20,0,10,-180"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Content="Version 1.0 @CAPSlock"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Foreground="WhiteSmoke" />
+            </StackPanel>
+
+            <ScrollViewer.Resources>
+                <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+
+            </ScrollViewer.Resources>
+
+        </ScrollViewer>
+
+        <ContentControl
+            x:Name="contentControl"
+            Grid.Column="1"
+            HorizontalAlignment="Stretch" />
+
+
+        <Button
+            Grid.Column="1"
+            Width="20"
+            Height="20"
+            Margin="0,10,40,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            BorderBrush="Transparent"
+            Click="Button_Click_1"
+            Content="X">
+            <Button.Background>
+                <ImageBrush ImageSource="Image/check-box-outline-blank.png" />
+            </Button.Background>
+        </Button>
+
+
+        <Button
+            Grid.Column="1"
+            Width="20"
+            Height="20"
+            Margin="0,10,10,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            BorderBrush="Transparent"
+            Click="Button_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="Image/close.png" />
+            </Button.Background>
+        </Button>
+
+
+
+        <Button
+            Grid.Column="1"
+            Width="20"
+            Height="20"
+            Margin="0,5,70,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            BorderBrush="Transparent"
+            Click="Button_Click_2"
+            Content="X">
+            <Button.Background>
+                <ImageBrush ImageSource="Image/minimize.png" />
+            </Button.Background>
+        </Button>
+
+
+    </Grid>
+</Window>
