@@ -87,15 +87,6 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Source="Image/capsule_logo_top.png" />
-        <Image
-            Grid.Row="1"
-            Grid.Column="1"
-            Width="116"
-            Height="35"
-            Margin="0,0,10,10"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Source="Image/centos-logo-1.png" />
 
         <Separator
             Grid.Row="1"
